@@ -1,22 +1,26 @@
+import axios from 'axios';
 import { Country } from './types';
+
+const BASE_URL = 'https://restcountries.com/v3.1';
 
 export const fetchCountries = async (): Promise<Country[]> => {
   try {
-    const response = await fetch('https://restcountries.com/v3.1/all');
-    return await response.json();
-  } catch (error) {
-    console.error('Failed to fetch countries:', error);
-    return [];
+    const { data } = await axios.get<Country[]>(`${BASE_URL}/all`);
+    return data;
+  } catch {
+    // Fallback to local data
+    const fallback = await fetch('/data/data.json').then((res) => res.json());
+    return fallback as Country[];
   }
 };
 
-export const fetchCountryByCode = async (code: string): Promise<Country | null> => {
+export const fetchCountryByCode = async (code: string): Promise<Country> => {
   try {
-    const response = await fetch(`https://restcountries.com/v3.1/alpha/${code}`);
-    const data = await response.json();
-    return data[0] || null;
-  } catch (error) {
-    console.error('Failed to fetch country by code:', error);
-    return null;
+    const { data } = await axios.get<Country[]>(`${BASE_URL}/alpha/${code}`);
+    return data[0];
+  } catch {
+    // Fallback to local data
+    const countries = await fetch('/data/data.json').then((res) => res.json());
+    return (countries as Country[]).find((country) => country.cca3 === code)!;
   }
 };
