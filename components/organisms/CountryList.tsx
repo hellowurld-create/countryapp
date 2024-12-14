@@ -11,7 +11,6 @@ interface Props {
 }
 
 const CountryList: FC<Props> = ({ countries }) => {
-   // eslint-disable-next-line @typescript-eslint/no-unused-vars
    const [countrieslist, setCountries] = useState([]);
   const [loading, setLoading] = useState(true);
 
