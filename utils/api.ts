@@ -1,26 +1,29 @@
-import axios from 'axios';
-import { Country } from './types';
-
 const BASE_URL = 'https://restcountries.com/v3.1';
 
-export const fetchCountries = async (): Promise<Country[]> => {
+export const fetchCountries = async () => {
   try {
-    const { data } = await axios.get<Country[]>(`${BASE_URL}/all`);
-    return data;
+    const response = await fetch(`${BASE_URL}/all`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch countries');
+    }
+    return await response.json();
   } catch {
-    // Fallback to local data
-    const fallback = await fetch('/data/data.json').then((res) => res.json());
-    return fallback as Country[];
+    // Fallback to data.json
+    return await fetch(`${BASE_URL}/all`).then((res) => res.json());
   }
 };
 
-export const fetchCountryByCode = async (code: string): Promise<Country> => {
+export const fetchCountryByCode = async (code: string) => {
   try {
-    const { data } = await axios.get<Country[]>(`${BASE_URL}/alpha/${code}`);
+    const response = await fetch(`${BASE_URL}/alpha/${code}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch country by code');
+    }
+    const data = await response.json();
     return data[0];
   } catch {
-    // Fallback to local data
-    const countries = await fetch('/data/data.json').then((res) => res.json());
-    return (countries as Country[]).find((country) => country.cca3 === code)!;
+    // Fallback to data.json
+    const countries = await fetch(`${BASE_URL}/all`).then((res) => res.json());
+    return countries.find((country: any) => country.cca3 === code);
   }
 };

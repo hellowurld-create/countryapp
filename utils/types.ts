@@ -6,7 +6,16 @@ export interface Country {
   capital?: string[];
   flags: { png: string; svg: string };
   cca3: string;
+  cca2: string;
   borders?: string[];
+  tld?: string[];
+  languages?: { [key: string]: string };
+   currencies?: {
+    [key: string]: {
+      name: string;
+      symbol: string;
+    };
+  };
 }
 
 export interface FilterOptions {
