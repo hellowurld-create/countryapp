@@ -1,6 +1,8 @@
 import Header from "@/components/atoms/Header";
+import Loader from "@/components/atoms/Loader";
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 
 const font = Nunito_Sans({
@@ -24,7 +26,11 @@ export default function RootLayout({
         className={` antialiased`}
       >
         <Header/>
-        <main className="flex-1">{children}</main>
+        <main className="flex-1">
+          <Suspense fallback={<Loader />}>
+          {children}
+          </Suspense>
+        </main>
       </body>
     </html>
   );

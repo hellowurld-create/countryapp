@@ -18,13 +18,13 @@ const CountryCard: FC<Props> = ({ country }) => {
           {country.name.common}
         </h3>
         <p className="text-sm text-gray-700 dark:text-gray-300">
-          <span className="font-medium">Population:</span> {country.population.toLocaleString()}
+          <span className=" font-semibold">Population:</span> {country.population.toLocaleString()}
         </p>
         <p className="text-sm text-gray-700 dark:text-gray-300">
-          <span className="font-medium">Region:</span> {country.region}
+          <span className="font-semibold">Region:</span> {country.region}
         </p>
         <p className="text-sm text-gray-700 dark:text-gray-300">
-          <span className="font-medium">Capital:</span> {country.capital?.[0] || 'N/A'}
+          <span className="font-semibold">Capital:</span> {country.capital?.[0] || 'N/A'}
         </p>
       </div>
     </div>

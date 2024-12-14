@@ -10,35 +10,31 @@ interface Props {
   };
 }
 
+
+
 const CountryDetails = async ({ params }: Props) => {
-  const code = await params.code; // Awaiting `params.code`
+  const { code } = await params; // Await params to destructure `code`
 
-  let country: Country | null = null;
-
-  try {
-    country = await fetchCountryByCode(code);
-  } catch (error) {
-    console.error("Error fetching country data:", error);
-  }
+  const country: Country | null = await fetchCountryByCode(code);
 
   if (!country) {
     return <p>Country not found!</p>;
   }
 
   return (
-    <main className=" md:p-24 md:pb-32 bg-white dark:bg-gray-900 text-black dark:text-white">
-     <BackButton />
+    <main className="md:p-24 max-md:p-10 md:pb-44 bg-white dark:bg-gray-900 text-black dark:text-white">
+      <BackButton />
       <div className="mt-16 md:grid md:grid-cols-2 md:items-center md:gap-16">
         <Image
           height={400}
           width={500}
           src={country.flags.svg || country.flags.png}
           alt={`${country.name.common} Flag`}
-          className="object-contain"
+          className="object-contain rounded-sm"
         />
         <div>
-        <h1 className="text-2xl font-bold">{country.name.common}</h1>
-       <div className="md:grid md:grid-cols-2 md:items-start md:mt-12 md:justify-between">
+          <h1 className="text-2xl max-sm:mt-10 font-bold">{country.name.common}</h1>
+          <div className="md:grid md:grid-cols-2 md:items-start md:mt-12 md:justify-between">
             <div className="flex flex-col gap-4 mt-10 md:mt-0">
               <div>
                 <strong>Native name: </strong>
@@ -97,23 +93,23 @@ const CountryDetails = async ({ params }: Props) => {
               )}
             </div>
           </div>
-        {country.borders && (
-          <div className="flex justify-left items-center">
-            <h3 className="mt-4 mr-3 text-lg font-semibold">Border Countries:</h3>
-            <div className="flex items-center gap-4 flex-wrap mt-4 max-w-full">
-              {country.borders.map((border) => (
-                <Link
-                  key={border}
-                  href={`/countries/${border}`}
-                  className="bg-secondary px-4 py-1 text-center text-xs rounded-md border border-neutral-800 hover:bg-slate-300 gap-4 hover:opacity-80"
-                >
-                   {border}
-                </Link>
-              ))}
+          {country.borders && (
+            <div className="flex justify-left items-center">
+              <h3 className="mt-4 mr-3 text-lg font-semibold">Border Countries:</h3>
+              <div className="flex items-center gap-4 flex-wrap mt-4 max-w-full">
+                {country.borders.map((border) => (
+                  <Link
+                    key={border}
+                    href={`/countries/${border}`}
+                    className="bg-secondary px-4 py-1 text-center text-xs rounded-md border border-neutral-800 hover:bg-slate-300 gap-4 hover:opacity-80"
+                  >
+                    {border}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
           )}
-          </div>
+        </div>
       </div>
     </main>
   );
