@@ -1,16 +1,32 @@
 import BackButton from "@/components/atoms/BackButton";
 import { fetchCountryByCode } from "@/utils/api";
 import { Country } from "@/utils/types";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
-  params: {
+   params: Promise<{
     code: string;
-  };
+  }>;
 }
 
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { code } = await params;
+
+  const country: Country | null = await fetchCountryByCode(code);
+
+  if (!country) {
+    return {
+      title: "Country not found",
+    };
+  }
+
+  return {
+    title: `${country.name.common} - ${country.flags}`,
+  };
+}
 
 const CountryDetails = async ({ params }: Props) => {
   const { code } = await params; // Await params to destructure `code`
