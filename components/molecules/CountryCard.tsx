@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { FC } from 'react';
 import { Country } from '../../utils/types';
 
@@ -8,7 +9,9 @@ interface Props {
 const CountryCard: FC<Props> = ({ country }) => {
   return (
     <div className="bg-white cursor-pointer dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-      <img
+      <Image
+        height={100}
+        width={150}
         src={country.flags.svg || country.flags.png}
         alt={`${country.name.common} Flag`}
         className="w-full h-48 object-cover rounded-t-lg"
