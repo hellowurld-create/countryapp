@@ -18,7 +18,7 @@ const SearchAndFilter: FC<Props> = ({
   regions,
 }) => {
   return (
-    <div className="flex flex-col gap-4 px-6 md:flex-row md:justify-between">
+    <div className="flex max-sm:pt-14 flex-col gap-4 px-6 md:flex-row md:justify-between">
       <SearchInput value={searchValue} onChange={onSearchChange} placeholder="Search for a country..." />
       <SearchFilter options={regions} value={filterValue} onChange={onFilterChange} />
     </div>
